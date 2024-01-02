@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/profileTv"
         android:text="Profile"
-        android:textSize="30dp"
+        android:textSize="16dp"
         android:textStyle="bold"/>
 
 </LinearLayout>
