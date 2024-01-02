@@ -15,13 +15,13 @@
         android:theme="@style/Theme.SocialApp"
         tools:targetApi="31">
         <activity
-            android:name=".ProfileActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ProfileActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
