@@ -2,4 +2,24 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#F44336</color>
+    <color name="green">#4CAF50</color>
+
+    <!--apps color first-->
+    <color name="color_1">#FF0004</color>
+    <color name="color_2">#F4C095</color>
+    <color name="color_3">#679289</color>
+    <color name="color_4">#1D7874</color>
+    <color name="color_5">#071E22</color>
+    <color name="color_6">#071E22</color>
+    <color name="color_7">#077cff</color>
+    44-274-Md. Zobayer Hasan Nayem22:58
+    <!--    <color name="color_8">#FF5722</color>-->
+    <color name="color_8">#FF000000</color>
+    <color name="color_9">#A9C3B6</color>
+    <color name="color_10">#CEDFDF</color>
+    <color name="color_11">#B7D1D3</color>
+    <color name="color_12">#99BFCE</color>
+    <color name="color_13">#6DB3D1</color>
+
 </resources>
