@@ -124,9 +124,10 @@ public class ProfileFragment extends Fragment {
                    }
 
                    try {
+                       /*Picasso.get().load(cover).into(coverTv);*/
                        Picasso.get().load(cover).into(coverTv);
                    } catch (Exception e){
-
+                       Picasso.get().load(R.drawable.ic_add_image).into(coverTv);
                    }
                }
             }
@@ -333,7 +334,7 @@ public class ProfileFragment extends Fragment {
 
             }
         }
-        super.onActivityResult(requestCode, resultCode, data);
+        /*super.onActivityResult(requestCode, resultCode, data);*/
     }
 
     private void uploadProfileCoverPhoto(Uri uri) {
@@ -356,7 +357,7 @@ public class ProfileFragment extends Fragment {
                                 databaseReference.child(user.getUid()).updateChildren(results)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
-                                            public void onSuccess(Void unused) {
+                                            public void onSuccess(Void aVoid) {
                                                 progressDialog.dismiss();
                                                 Toast.makeText(getActivity(), "Image Updated...", Toast.LENGTH_SHORT).show();
                                             }
