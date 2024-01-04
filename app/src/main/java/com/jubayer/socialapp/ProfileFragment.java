@@ -381,53 +381,6 @@ public class ProfileFragment extends Fragment {
                 });
     }
 
-    /*private void uploadProfileCoverPhoto(Uri uri) {
-        progressDialog.show();
-        String filePathAndName = storagePath+ ""+ profileOrCoverPhoto +"_"+ user.getUid();
-
-        StorageReference storageReference2nd = storageReference.child(filePathAndName);
-        storageReference2nd.putFile(uri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                        while (!uriTask.isSuccessful()){
-                            Uri downloadUri = uriTask.getResult();
-
-                            if (uriTask.isSuccessful()){
-                                HashMap<String, Object> results = new HashMap<>();
-                                results.put(profileOrCoverPhoto, downloadUri.toString());
-
-                                databaseReference.child(user.getUid()).updateChildren(results)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                progressDialog.dismiss();
-                                                Toast.makeText(getActivity(), "Image Updated...", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                progressDialog.dismiss();
-                                                Toast.makeText(getActivity(), "Error Updating Image...", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-
-                            } else {
-                                progressDialog.dismiss();
-                                Toast.makeText(getActivity(), "Some error occurred", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }*/
-
     private void pickFromCamera() {
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.TITLE, "Temp Pic");
