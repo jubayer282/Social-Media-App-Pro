@@ -65,8 +65,8 @@ public class ProfileFragment extends Fragment {
     private static final int STORAGE_REQUEST_CODE = 200;
     private static final int IMAGE_PICK_GALLERY_CODE = 300;
     private static final int IMAGE_PICK_CAMERA_CODE = 400;
-    String cameraPermissions[];
-    String storagePermissions[];
+    String[] cameraPermissions;
+    String[] storagePermissions;
 
    Uri image_uri;
 
@@ -120,14 +120,13 @@ public class ProfileFragment extends Fragment {
                    try {
                        Picasso.get().load(image).into(avatarTv);
                    } catch (Exception e){
-                       Picasso.get().load(R.drawable.ic_add_image).into(avatarTv);
+                       Picasso.get().load(R.drawable.ic_cover).into(avatarTv);
                    }
 
                    try {
                        /*Picasso.get().load(cover).into(coverTv);*/
                        Picasso.get().load(cover).into(coverTv);
                    } catch (Exception e){
-                       Picasso.get().load(R.drawable.ic_add_image).into(coverTv);
                    }
                }
             }
@@ -158,7 +157,7 @@ public class ProfileFragment extends Fragment {
 
     private boolean checkCameraPermission(){
 
-        boolean result = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
+        boolean result = ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CAMERA)
                 == (PackageManager.PERMISSION_GRANTED);
         boolean result1 = ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == (PackageManager.PERMISSION_GRANTED);
@@ -174,25 +173,25 @@ public class ProfileFragment extends Fragment {
         builder.setTitle("Choose Action");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if (i == 0){
+            public void onClick(DialogInterface dialogInterface, int which) {
+                if (which == 0){
                     //Edit Profile click
                     progressDialog.setMessage("Updating Profile Picture");
                     profileOrCoverPhoto = "image";
                     showImagePicDialog();
 
-                } else if (i == 1){
+                } else if (which == 1){
                     //Edit cover click
                     progressDialog.setMessage("Updating Cover Photo");
                     profileOrCoverPhoto = "cover";
                     showImagePicDialog();
 
-                } else if (i == 2){
+                } else if (which == 2){
                     //Edit name click
                     progressDialog.setMessage("Updating Name");
                     showNamePhoneUpdateDialog("name");
 
-                } else if (i == 3){
+                } else if (which == 3){
                     //Edit phone click
                     progressDialog.setMessage("Updating Phone");
                     showNamePhoneUpdateDialog("phone");
@@ -218,7 +217,7 @@ public class ProfileFragment extends Fragment {
 
         builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public void onClick(DialogInterface dialogInterface, int which) {
                 String value = editText.getText().toString().trim();
 
                 if (!TextUtils.isEmpty(value)){
@@ -263,8 +262,8 @@ public class ProfileFragment extends Fragment {
         builder.setTitle("Pick Image From");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if (i == 0){
+            public void onClick(DialogInterface dialogInterface, int which) {
+                if (which == 0){
                     //Camera click
                     if (!checkCameraPermission()){
                         requestCameraPermission();
@@ -272,7 +271,7 @@ public class ProfileFragment extends Fragment {
                         pickFromCamera();
                     }
 
-                } else if (i == 1){
+                } else if (which == 1){
                     //Gallery click
                     if (!checkStoragePermission()){
                         requestStoragePermission();
@@ -319,7 +318,6 @@ public class ProfileFragment extends Fragment {
        }
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == RESULT_OK) {
@@ -339,7 +337,53 @@ public class ProfileFragment extends Fragment {
 
     private void uploadProfileCoverPhoto(Uri uri) {
         progressDialog.show();
-        String filePathAndName = storagePath +""+ profileOrCoverPhoto +"_"+ user.getUid();
+        String filePathAndName = storagePath+ ""+ profileOrCoverPhoto +"_"+ user.getUid();
+
+        StorageReference storageReference2nd = storageReference.child(filePathAndName);
+        storageReference2nd.putFile(uri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                        while (!uriTask.isSuccessful());
+                        Uri downloadUri = uriTask.getResult();
+
+                        if (uriTask.isSuccessful()){
+                            HashMap<String, Object> results = new HashMap<>();
+                            results.put(profileOrCoverPhoto, downloadUri.toString());
+
+                            databaseReference.child(user.getUid()).updateChildren(results)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            progressDialog.dismiss();
+                                            Toast.makeText(getActivity(), "Image Updated...", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            progressDialog.dismiss();
+                                            Toast.makeText(getActivity(), "Image Updating Failed...", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
+                        } else {
+                            progressDialog.dismiss();
+                            Toast.makeText(getActivity(), "Some error occurred.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getActivity(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    /*private void uploadProfileCoverPhoto(Uri uri) {
+        progressDialog.show();
+        String filePathAndName = storagePath+ ""+ profileOrCoverPhoto +"_"+ user.getUid();
 
         StorageReference storageReference2nd = storageReference.child(filePathAndName);
         storageReference2nd.putFile(uri)
@@ -382,24 +426,23 @@ public class ProfileFragment extends Fragment {
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    private void pickFromGallery() {
-            Intent galleryIntent = new Intent(Intent.ACTION_PICK);
-        galleryIntent.setType("image/*");
-        startActivityForResult(galleryIntent, IMAGE_PICK_GALLERY_CODE);
-    }
-
+    }*/
 
     private void pickFromCamera() {
         ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE, "Team Pic");
-        values.put(MediaStore.Images.Media.DESCRIPTION, "Team Description");
+        values.put(MediaStore.Images.Media.TITLE, "Temp Pic");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "Temp Description");
 
         image_uri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
         startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE);
+    }
+
+    private void pickFromGallery() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK);
+        galleryIntent.setType("image/*");
+        startActivityForResult(galleryIntent, IMAGE_PICK_GALLERY_CODE);
     }
 }

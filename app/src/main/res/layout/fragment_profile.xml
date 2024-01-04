@@ -36,7 +36,7 @@
                     android:layout_marginStart="20dp"
                     android:background="@color/color_11"
                     android:padding="5dp"
-                    android:src="@drawable/ic_add_image"/>
+                    android:src="@drawable/ic_cover"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
