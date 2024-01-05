@@ -17,4 +17,16 @@
     </style>
 
     <style name="Theme.SocialApp" parent="Base.Theme.SocialApp" />
+
+    <style name="AppThemeNo" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorAccent">@color/primaryLight</item>
+
+    </style>
+
+    <style name="AppThemeNo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppThemeNo.PopupBarOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
 </resources>

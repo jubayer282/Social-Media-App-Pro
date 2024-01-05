@@ -1,6 +1,7 @@
-package com.jubayer.socialapp;
+package com.jubayer.socialapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jubayer.socialapp.ChatActivity;
+import com.jubayer.socialapp.R;
+import com.jubayer.socialapp.models.ModelUsers;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -33,6 +37,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
+        String hisUID = usersList.get(position).getUid();
         String userImage = usersList.get(position).getImage();
         String userName = usersList.get(position).getName();
         String userEmail = usersList.get(position).getEmail();
@@ -51,7 +56,9 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, ""+userEmail, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, ChatActivity.class);
+                intent.putExtra("hisUid", hisUID);
+                context.startActivity(intent);
             }
         });
     }

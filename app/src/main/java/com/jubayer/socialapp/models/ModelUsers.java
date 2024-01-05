@@ -1,4 +1,4 @@
-package com.jubayer.socialapp;
+package com.jubayer.socialapp.models;
 
 public class ModelUsers {
 
