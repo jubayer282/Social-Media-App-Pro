@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,16 +38,22 @@ public class UsersFragment extends Fragment {
     AdapterUsers adapterUsers;
     List<ModelUsers> usersList;
     FirebaseAuth firebaseAuth;
+    ProgressBar progress_circular;
+
     public UsersFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_users, container, false);
+        View view = inflater.inflate(R.layout.fragment_users, container, false);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        progress_circular = view.findViewById(R.id.progress_circular);
+        progress_circular.setVisibility(View.VISIBLE);
 
         recyclerView = view.findViewById(R.id.users_recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -67,13 +74,16 @@ public class UsersFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                progress_circular.setVisibility(View.VISIBLE);
                 usersList.clear();
-                for (DataSnapshot ds : snapshot.getChildren()){
+                for (DataSnapshot ds : snapshot.getChildren()) {
                     ModelUsers modelUsers = ds.getValue(ModelUsers.class);
 
-                    if (!modelUsers.getUid().equals(firebaseUser.getUid())){
+                    if (!modelUsers.getUid().equals(firebaseUser.getUid())) {
+                        progress_circular.setVisibility(View.INVISIBLE);
                         usersList.add(modelUsers);
                     }
+                    progress_circular.setVisibility(View.INVISIBLE);
                     adapterUsers = new AdapterUsers(getActivity(), usersList);
                     recyclerView.setAdapter(adapterUsers);
                 }
@@ -81,7 +91,7 @@ public class UsersFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                progress_circular.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -94,13 +104,13 @@ public class UsersFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 usersList.clear();
-                for (DataSnapshot ds : snapshot.getChildren()){
+                for (DataSnapshot ds : snapshot.getChildren()) {
                     ModelUsers modelUsers = ds.getValue(ModelUsers.class);
 
-                    if (!modelUsers.getUid().equals(firebaseUser.getUid())){
+                    if (!modelUsers.getUid().equals(firebaseUser.getUid())) {
 
                         if (modelUsers.getName().toLowerCase().contains(query.toLowerCase()) ||
-                        modelUsers.getEmail().toLowerCase().contains(query.toLowerCase())) {
+                                modelUsers.getEmail().toLowerCase().contains(query.toLowerCase())) {
                             usersList.add(modelUsers);
                         }
 
@@ -119,9 +129,9 @@ public class UsersFragment extends Fragment {
 
     }
 
-    private void checkUserStatus(){
+    private void checkUserStatus() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user !=null){
+        if (user != null) {
 
 
         } else {
@@ -148,7 +158,7 @@ public class UsersFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                if (!TextUtils.isEmpty(s.trim())){
+                if (!TextUtils.isEmpty(s.trim())) {
                     searchUsers(s);
                 } else {
                     getAllUsers();
@@ -158,7 +168,7 @@ public class UsersFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                if (!TextUtils.isEmpty(s.trim())){
+                if (!TextUtils.isEmpty(s.trim())) {
                     searchUsers(s);
                 } else {
                     getAllUsers();
@@ -174,7 +184,7 @@ public class UsersFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_logout){
+        if (id == R.id.action_logout) {
             firebaseAuth.signOut();
             checkUserStatus();
         }

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_margin="5dp"
     android:padding="10dp">
 
     <LinearLayout
@@ -12,40 +13,50 @@
         android:orientation="horizontal">
 
         <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+            android:id="@+id/profileIv"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:id="@+id/profileIv"
-            app:c_border_color="@null"
-            android:src="@drawable/ic_cover"/>
+            android:src="@drawable/ic_cover"
+            app:c_border_color="@null" />
 
         <TextView
             android:id="@+id/messageTv"
-            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/black"
             android:background="@drawable/bg_receiver"
             android:padding="15dp"
             android:text="His Message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/timeTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="05/01/2024 08:00PM"
+            android:fontFamily="@font/gp_font_condensed"
             android:textColor="@color/black"
-            android:textSize="12sp" />
+            android:textSize="17.5sp" />
 
     </LinearLayout>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/isSeenTv"
-        android:gravity="end"
-        android:visibility="gone"
-        android:textAlignment="textEnd"
-        android:text="delivered"/>
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/isSeenTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="delivered"
+            android:fontFamily="@font/gp_font_condensed"
+            android:textAlignment="textStart"
+            />
+
+        <TextView
+            android:id="@+id/timeTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="05/01/2024 08:00PM"
+            android:fontFamily="@font/gp_font_condensed"
+            android:textColor="@color/black"
+            android:textAlignment="textEnd"
+            android:textSize="12sp" />
+    </LinearLayout>
 
 </LinearLayout>

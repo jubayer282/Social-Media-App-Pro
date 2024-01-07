@@ -49,6 +49,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Name"
+                        android:fontFamily="@font/gp_font_condensed"
                         android:layout_marginStart="5dp"
                         android:textColor="@color/white"
                         android:layout_marginTop="5dp"
@@ -59,6 +60,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Email"
+                        android:fontFamily="@font/gp_font_condensed"
                         android:layout_marginStart="5dp"
                         android:textColor="@color/white"/>
 
@@ -67,6 +69,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Phone"
+                        android:fontFamily="@font/gp_font_condensed"
                         android:layout_marginStart="5dp"
                         android:textColor="@color/white"/>
 
