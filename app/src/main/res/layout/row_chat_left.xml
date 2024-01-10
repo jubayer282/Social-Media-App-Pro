@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_margin="5dp"
+    android:id="@+id/messageLayout"
     android:padding="10dp">
 
     <LinearLayout
@@ -47,6 +45,7 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:text="delivered"
+            android:visibility="gone"
             android:fontFamily="@font/gp_font_condensed"
             android:textAlignment="textStart"
             />
