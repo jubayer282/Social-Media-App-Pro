@@ -44,7 +44,6 @@ public class ChatActivity extends AppCompatActivity {
     TextView nameTv, userStatusTv;
     EditText messageEt;
     ImageButton sendBtn;
-
     FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference userDbRef;
@@ -137,6 +136,7 @@ public class ChatActivity extends AppCompatActivity {
                 for (DataSnapshot ds : snapshot.getChildren()){
                     ModelChat chat = ds.getValue(ModelChat.class);
 
+                    assert chat != null;
                     if (chat.getReceiver().equals(myUid) && chat.getSender().equals(hisUid)){
                         HashMap<String, Object> hasSeenHashMap = new HashMap<>();
                         hasSeenHashMap.put("isSeen", true);
