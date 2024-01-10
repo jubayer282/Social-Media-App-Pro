@@ -34,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="His Name"
+                android:fontFamily="@font/gp_font_medium"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
@@ -43,6 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Online"
+                android:fontFamily="@font/gp_font_condensed"
                 android:textColor="@color/white"
                 android:textStyle="bold"/>
 
@@ -73,6 +75,7 @@
             android:layout_width="0dp"
             android:inputType="textCapSentences|textMultiLine"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/gp_font_condensed"
             android:hint="Start typing"
             android:background="@null"
             android:padding="15dp"/>
